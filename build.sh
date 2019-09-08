@@ -1,0 +1,1 @@
+GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -x -ldflags '-s -w' -a -installsuffix cgo  plathome.go

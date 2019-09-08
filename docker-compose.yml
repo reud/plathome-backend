@@ -1,0 +1,28 @@
+# docker-compose のバージョン
+version: '3'
+
+# 各コンテナの情報
+services:
+
+  # postgres サービス
+  postgres:
+    image: postgres:11.5
+    # コンテナの名前
+    container_name: plathome-db
+    # postgres 設定
+    ports:
+      - "5432:5432"
+
+  # golang アプリケーション
+  app:
+    container_name: app
+    # postgres をビルドした後に app をビルド
+    depends_on:
+      - postgres
+    # Dockerfile を指定
+    build: .
+    volumes:
+      - ./go:/go/src/app/go/
+
+    links:
+      - postgres

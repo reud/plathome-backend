@@ -1,0 +1,96 @@
+swagger: "2.0"
+info:
+  title: "PlatHome"
+  version: "0.0.1"
+  description: "Home Netework Watcher Service"
+  contact:
+    name: "reud"
+    url: "https://reud.net/"
+    email: "mail@reud.net"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+paths:
+  /device:
+    put:
+      parameters:
+        - name: "device"
+          in: "body"
+          required: true
+          description: "put to DB a new Device"
+          schema:
+            $ref: '#/definitions/Device'
+      responses:
+        200:
+          description: "Successful response"
+          schema:
+            type: "object"
+            properties:
+              message:
+                type: "string"
+    delete:
+      summary: "Delete Devices from DB by ID"
+      parameters:
+        - name: "id"
+          in: "query"
+          required: true
+          description: "delete Device"
+          type: "integer"
+
+
+      responses:
+        200:
+          description: "delete successful"
+          schema:
+            type: "object"
+            properties:
+              message:
+                type: "string"
+    get:
+      summary: "get All Device  from DB"
+      responses:
+        200:
+          description: "get successful"
+          schema:
+            type: "array"
+            items:
+              $ref: '#/definitions/Device'
+
+definitions:
+  Device:
+    type: "object"
+    required:
+      - type
+      - ip
+      - hostname
+      - description
+      - ezRequesterModels
+    properties:
+      type:
+        type: "string"
+      ip:
+        type: "string"
+      hostname:
+        type: "string"
+      description:
+        type: "string"
+      ezRequesterModels:
+        type: "array"
+        items:
+          $ref: '#/definitions/EzRequesterModel'
+  EzRequesterModel:
+    type: "object"
+    required:
+      - protocol
+      - parameter
+    properties:
+      protocol:
+        type: "string"
+      parameter:
+        type: "string"
+
+
