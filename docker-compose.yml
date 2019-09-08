@@ -7,22 +7,23 @@ services:
   # postgres サービス
   postgres:
     image: postgres:11.5
-    # コンテナの名前
-    container_name: plathome-db
     # postgres 設定
     ports:
       - "5432:5432"
+    volumes:
+      - dbdata:/var/lib/postgresql/data
 
   # golang アプリケーション
   app:
-    container_name: app
+    image: reud/plathome-backend
     # postgres をビルドした後に app をビルド
     depends_on:
       - postgres
     # Dockerfile を指定
-    build: .
-    volumes:
-      - ./go:/go/src/app/go/
-
-    links:
-      - postgres
+    network_mode: "host"
+    environment:
+      - host=10.255.0.1
+    ports:
+      - "8080:8080"
+volumes:
+  dbdata:
