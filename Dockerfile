@@ -18,4 +18,5 @@ RUN GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -ldflags '-s -w' -a -installs
 FROM alpine:3.10.1
 RUN apk add --no-cache ca-certificates
 COPY --from=build /plathome .
+ENV host localhost
 CMD ["./plathome"]

@@ -12,6 +12,7 @@ import (
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
 	"net/http"
+	"os"
 )
 
 //go:generate swagger generate server --target ../../gen --name PlatHome --spec ../../swagger.yaml --exclude-main
@@ -23,7 +24,7 @@ func configureFlags(api *operations.PlatHomeAPI) {
 func configureAPI(api *operations.PlatHomeAPI) http.Handler {
 	var (
 		dialect  = "postgres"
-		settings = "host=localhost user=postgres port=5432 sslmode=disable"
+		settings = "host=" + os.Getenv("host") + " user=postgres port=5432 sslmode=disable"
 	)
 	db := controller.NewDatabase(dialect, settings)
 	api.ServeError = errors.ServeError
