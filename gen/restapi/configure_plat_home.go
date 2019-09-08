@@ -23,7 +23,7 @@ func configureFlags(api *operations.PlatHomeAPI) {
 func configureAPI(api *operations.PlatHomeAPI) http.Handler {
 	var (
 		dialect  = "postgres"
-		settings = "host=10.255.0.1 user=postgres port=5432 sslmode=disable"
+		settings = "host=localhost user=postgres port=5432 sslmode=disable"
 	)
 	db := controller.NewDatabase(dialect, settings)
 	api.ServeError = errors.ServeError
