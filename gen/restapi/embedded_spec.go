@@ -39,6 +39,7 @@ func init() {
     },
     "version": "0.0.1"
   },
+  "host": "0.0.0.0:8080",
   "paths": {
     "/device": {
       "get": {
@@ -178,6 +179,7 @@ func init() {
     },
     "version": "0.0.1"
   },
+  "host": "0.0.0.0:8080",
   "paths": {
     "/device": {
       "get": {

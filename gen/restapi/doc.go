@@ -7,7 +7,7 @@ Home Netework Watcher Service
 
     Schemes:
       http
-    Host: localhost
+    Host: 0.0.0.0:8080
     BasePath: /
     Version: 0.0.1
     License: Apache 2.0 http://www.apache.org/licenses/LICENSE-2.0.html
