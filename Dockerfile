@@ -19,5 +19,5 @@ RUN GOOS=linux GOARCH=$GOARCH CGO_ENABLED=0 go build -ldflags '-s -w' -a -instal
 FROM alpine:3.10.1
 RUN apk add --no-cache ca-certificates
 COPY --from=build /plathome .
-ENV host localhost
-CMD ["./plathome","--host 0.0.0.0"]
+ENV host 0.0.0.0
+CMD ["./plathome","--port=8080","--host=0.0.0.0"]
