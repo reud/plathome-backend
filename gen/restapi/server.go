@@ -25,7 +25,7 @@ import (
 	flags "github.com/jessevdk/go-flags"
 	"golang.org/x/net/netutil"
 
-	"PlatHome-Backend/gen/restapi/operations"
+	"plathome-backend/gen/restapi/operations"
 )
 
 const (

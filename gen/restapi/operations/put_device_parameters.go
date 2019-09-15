@@ -13,7 +13,7 @@ import (
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
 
-	models "PlatHome-Backend/gen/models"
+	models "plathome-backend/gen/models"
 )
 
 // NewPutDeviceParams creates a new PutDeviceParams object

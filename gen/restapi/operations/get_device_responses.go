@@ -10,7 +10,7 @@ import (
 
 	"github.com/go-openapi/runtime"
 
-	models "PlatHome-Backend/gen/models"
+	models "plathome-backend/gen/models"
 )
 
 // GetDeviceOKCode is the HTTP code returned for type GetDeviceOK

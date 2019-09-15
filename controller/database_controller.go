@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"PlatHome-Backend/models"
 	"github.com/jinzhu/gorm"
+	"plathome-backend/models"
 )
 
 type Database struct {

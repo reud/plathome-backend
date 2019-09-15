@@ -3,10 +3,6 @@
 package restapi
 
 import (
-	"PlatHome-Backend/controller"
-	"PlatHome-Backend/gen/restapi/operations"
-	handler2 "PlatHome-Backend/handler"
-	"PlatHome-Backend/models"
 	"crypto/tls"
 	"fmt"
 	"github.com/go-openapi/errors"
@@ -14,6 +10,10 @@ import (
 	"github.com/go-openapi/runtime/middleware"
 	"net/http"
 	"os"
+	"plathome-backend/controller"
+	"plathome-backend/gen/restapi/operations"
+	handler2 "plathome-backend/handler"
+	"plathome-backend/models"
 )
 
 //go:generate swagger generate server --target ../../gen --name PlatHome --spec ../../swagger.yaml --exclude-main
