@@ -15,14 +15,17 @@ services:
 
   # golang アプリケーション
   app:
-    image: reud/plathome-backend
+    build: 
+      context: ./
+      args:
+        GOARCH: "arm"
     # postgres をビルドした後に app をビルド
     depends_on:
       - postgres
     # Dockerfile を指定
     network_mode: "host"
     environment:
-      - host=10.255.0.1
+      - host=localhost
     ports:
       - "8080:8080"
 volumes:
