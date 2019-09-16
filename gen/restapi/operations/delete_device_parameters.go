@@ -11,7 +11,6 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
-	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
@@ -37,7 +36,7 @@ type DeleteDeviceParams struct {
 	  Required: true
 	  In: query
 	*/
-	ID int64
+	IP string
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
@@ -51,8 +50,8 @@ func (o *DeleteDeviceParams) BindRequest(r *http.Request, route *middleware.Matc
 
 	qs := runtime.Values(r.URL.Query())
 
-	qID, qhkID, _ := qs.GetOK("id")
-	if err := o.bindID(qID, qhkID, route.Formats); err != nil {
+	qIP, qhkIP, _ := qs.GetOK("ip")
+	if err := o.bindIP(qIP, qhkIP, route.Formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -62,10 +61,10 @@ func (o *DeleteDeviceParams) BindRequest(r *http.Request, route *middleware.Matc
 	return nil
 }
 
-// bindID binds and validates parameter ID from query.
-func (o *DeleteDeviceParams) bindID(rawData []string, hasKey bool, formats strfmt.Registry) error {
+// bindIP binds and validates parameter IP from query.
+func (o *DeleteDeviceParams) bindIP(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	if !hasKey {
-		return errors.Required("id", "query")
+		return errors.Required("ip", "query")
 	}
 	var raw string
 	if len(rawData) > 0 {
@@ -74,15 +73,11 @@ func (o *DeleteDeviceParams) bindID(rawData []string, hasKey bool, formats strfm
 
 	// Required: true
 	// AllowEmptyValue: false
-	if err := validate.RequiredString("id", "query", raw); err != nil {
+	if err := validate.RequiredString("ip", "query", raw); err != nil {
 		return err
 	}
 
-	value, err := swag.ConvertInt64(raw)
-	if err != nil {
-		return errors.InvalidType("id", "query", "int64", raw)
-	}
-	o.ID = value
+	o.IP = raw
 
 	return nil
 }

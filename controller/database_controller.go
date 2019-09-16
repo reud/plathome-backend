@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"PlatHome-Backend/models"
 	"github.com/jinzhu/gorm"
+	"plathome-backend/models"
 )
 
 type Database struct {
@@ -39,15 +39,15 @@ func (d *Database) FindAll() *[]models.Device {
 	return &devices
 }
 
-func (d *Database) Delete(id uint) {
+func (d *Database) Delete(ip string) {
 	dice := models.Device{}
-	dice.ID = id
+	dice.IP = ip
 	d.db.Delete(dice)
 }
 
 func (d *Database) Update(device *models.Device) {
 	fromRecord := models.Device{}
-	fromRecord.ID = device.ID
+	fromRecord.IP = device.IP
 	d.db.First(&fromRecord)
 	d.db.Model(&fromRecord).Update(&device)
 	d.db.Save(&device)

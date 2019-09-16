@@ -33,7 +33,7 @@ func NewDeleteDevice(ctx *middleware.Context, handler DeleteDeviceHandler) *Dele
 
 /*DeleteDevice swagger:route DELETE /device deleteDevice
 
-Delete Devices from DB by ID
+Delete Devices from DB by IP(converted)
 
 */
 type DeleteDevice struct {
@@ -57,6 +57,37 @@ func (o *DeleteDevice) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 
 	o.Context.Respond(rw, r, route.Produces, route, res)
 
+}
+
+// DeleteDeviceNotFoundBody delete device not found body
+// swagger:model DeleteDeviceNotFoundBody
+type DeleteDeviceNotFoundBody struct {
+
+	// message
+	Message string `json:"message,omitempty"`
+}
+
+// Validate validates this delete device not found body
+func (o *DeleteDeviceNotFoundBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// MarshalBinary interface implementation
+func (o *DeleteDeviceNotFoundBody) MarshalBinary() ([]byte, error) {
+	if o == nil {
+		return nil, nil
+	}
+	return swag.WriteJSON(o)
+}
+
+// UnmarshalBinary interface implementation
+func (o *DeleteDeviceNotFoundBody) UnmarshalBinary(b []byte) error {
+	var res DeleteDeviceNotFoundBody
+	if err := swag.ReadJSON(b, &res); err != nil {
+		return err
+	}
+	*o = res
+	return nil
 }
 
 // DeleteDeviceOKBody delete device o k body

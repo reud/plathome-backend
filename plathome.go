@@ -4,11 +4,11 @@ import (
 	"log"
 	"os"
 
-	"PlatHome-Backend/gen/restapi"
-	"PlatHome-Backend/gen/restapi/operations"
 	"github.com/go-openapi/loads"
 	"github.com/jessevdk/go-flags"
 	_ "github.com/lib/pq"
+	"plathome-backend/gen/restapi"
+	"plathome-backend/gen/restapi/operations"
 )
 
 func closeServer(sv *restapi.Server) {

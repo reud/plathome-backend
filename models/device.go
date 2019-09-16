@@ -1,26 +1,23 @@
 package models
 
 import (
-	"PlatHome-Backend/gen/models"
-	"github.com/jinzhu/gorm"
+	"plathome-backend/gen/models"
 )
 
 // for GORM (Database)
 type Device struct {
 	Description       string             `json:"description"`
-	EzRequesterModels []EzRequesterModel `json:"ezRequesterModels"`
+	EzRequesterModels []EzRequesterModel `json:"ezRequesterModels" gorm:"foreignkey:UserRefer"`
 
 	Hostname string `json:"hostname"`
-	IP       string `json:"ip"`
+	IP       string `json:"ip" gorm:"primary_key"`
 
 	Type string `json:"type"`
-	gorm.Model
 }
 
 type EzRequesterModel struct {
-	DeviceID uint
 	*models.EzRequesterModel
-	gorm.Model
+	UserRefer string
 }
 
 func NewDevice(md *models.Device) Device {
@@ -30,15 +27,13 @@ func NewDevice(md *models.Device) Device {
 		Hostname:    *md.Hostname,
 		IP:          *md.IP,
 		Type:        *md.Type,
-		Model:       gorm.Model{},
 	}
-	id := d.ID
+	ip := d.IP
 	var em []EzRequesterModel
 	for _, m := range md.EzRequesterModels {
 		em = append(em, EzRequesterModel{
-			DeviceID:         id,
+			UserRefer:        ip,
 			EzRequesterModel: m,
-			Model:            gorm.Model{},
 		})
 	}
 	d.EzRequesterModels = em
@@ -69,7 +64,7 @@ func ConvertDevices(ds []Device) []*models.Device {
 	if ds == nil {
 		return []*models.Device{}
 	}
-	for i, _ := range ds {
+	for i := range ds {
 		mds = append(mds, convertDevice(&ds[i]))
 	}
 	return mds
