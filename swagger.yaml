@@ -34,18 +34,25 @@ paths:
               message:
                 type: "string"
     delete:
-      summary: "Delete Devices from DB by ID"
+      summary: "Delete Devices from DB by IP(converted)"
       parameters:
-        - name: "id"
+        - name: "ip"
           in: "query"
           required: true
           description: "delete Device"
-          type: "integer"
+          type: "string"
 
 
       responses:
         200:
           description: "delete successful"
+          schema:
+            type: "object"
+            properties:
+              message:
+                type: "string"
+        404:
+          description: "device not found"
           schema:
             type: "object"
             properties:

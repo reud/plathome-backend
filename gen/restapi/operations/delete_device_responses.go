@@ -54,3 +54,47 @@ func (o *DeleteDeviceOK) WriteResponse(rw http.ResponseWriter, producer runtime.
 		}
 	}
 }
+
+// DeleteDeviceNotFoundCode is the HTTP code returned for type DeleteDeviceNotFound
+const DeleteDeviceNotFoundCode int = 404
+
+/*DeleteDeviceNotFound device not found
+
+swagger:response deleteDeviceNotFound
+*/
+type DeleteDeviceNotFound struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *DeleteDeviceNotFoundBody `json:"body,omitempty"`
+}
+
+// NewDeleteDeviceNotFound creates DeleteDeviceNotFound with default headers values
+func NewDeleteDeviceNotFound() *DeleteDeviceNotFound {
+
+	return &DeleteDeviceNotFound{}
+}
+
+// WithPayload adds the payload to the delete device not found response
+func (o *DeleteDeviceNotFound) WithPayload(payload *DeleteDeviceNotFoundBody) *DeleteDeviceNotFound {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the delete device not found response
+func (o *DeleteDeviceNotFound) SetPayload(payload *DeleteDeviceNotFoundBody) {
+	o.Payload = payload
+}
+
+// WriteResponse to the client
+func (o *DeleteDeviceNotFound) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(404)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
+}

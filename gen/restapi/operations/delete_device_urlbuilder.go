@@ -9,13 +9,11 @@ import (
 	"errors"
 	"net/url"
 	golangswaggerpaths "path"
-
-	"github.com/go-openapi/swag"
 )
 
 // DeleteDeviceURL generates an URL for the delete device operation
 type DeleteDeviceURL struct {
-	ID int64
+	IP string
 
 	_basePath string
 	// avoid unkeyed usage
@@ -48,9 +46,9 @@ func (o *DeleteDeviceURL) Build() (*url.URL, error) {
 
 	qs := make(url.Values)
 
-	id := swag.FormatInt64(o.ID)
-	if id != "" {
-		qs.Set("id", id)
+	ip := o.IP
+	if ip != "" {
+		qs.Set("ip", ip)
 	}
 
 	_result.RawQuery = qs.Encode()

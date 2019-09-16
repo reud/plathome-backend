@@ -83,12 +83,12 @@ func init() {
         }
       },
       "delete": {
-        "summary": "Delete Devices from DB by ID",
+        "summary": "Delete Devices from DB by IP(converted)",
         "parameters": [
           {
-            "type": "integer",
+            "type": "string",
             "description": "delete Device",
-            "name": "id",
+            "name": "ip",
             "in": "query",
             "required": true
           }
@@ -96,6 +96,17 @@ func init() {
         "responses": {
           "200": {
             "description": "delete successful",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "device not found",
             "schema": {
               "type": "object",
               "properties": {
@@ -223,12 +234,12 @@ func init() {
         }
       },
       "delete": {
-        "summary": "Delete Devices from DB by ID",
+        "summary": "Delete Devices from DB by IP(converted)",
         "parameters": [
           {
-            "type": "integer",
+            "type": "string",
             "description": "delete Device",
-            "name": "id",
+            "name": "ip",
             "in": "query",
             "required": true
           }
@@ -236,6 +247,17 @@ func init() {
         "responses": {
           "200": {
             "description": "delete successful",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "device not found",
             "schema": {
               "type": "object",
               "properties": {

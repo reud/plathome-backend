@@ -14,6 +14,7 @@ import (
 	"plathome-backend/gen/restapi/operations"
 	handler2 "plathome-backend/handler"
 	"plathome-backend/models"
+	"strings"
 )
 
 //go:generate swagger generate server --target ../../gen --name PlatHome --spec ../../swagger.yaml --exclude-main
@@ -41,7 +42,8 @@ func configureAPI(api *operations.PlatHomeAPI) http.Handler {
 	api.JSONProducer = runtime.JSONProducer()
 
 	api.DeleteDeviceHandler = operations.DeleteDeviceHandlerFunc(func(params operations.DeleteDeviceParams) middleware.Responder {
-		db.Delete(uint(params.ID))
+		ip := strings.Replace(params.IP, "_", ".", -1)
+		db.Delete(ip)
 		return operations.NewDeleteDeviceOK().WithPayload(&operations.DeleteDeviceOKBody{Message: "Deleted"})
 	})
 	api.PutDeviceHandler = operations.PutDeviceHandlerFunc(func(params operations.PutDeviceParams) middleware.Responder {
