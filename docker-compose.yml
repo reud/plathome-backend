@@ -15,7 +15,7 @@ services:
 
   # golang アプリケーション
   app:
-    build: 
+    build:
       context: ./
       args:
         GOARCH: "arm"
@@ -23,9 +23,9 @@ services:
     depends_on:
       - postgres
     # Dockerfile を指定
-    # network_mode: "host"
+    network_mode: "host"
     environment:
-      - db_host=postgres
+      - host=0.0.0.0
     ports:
       - "17532:8080"
 volumes:
