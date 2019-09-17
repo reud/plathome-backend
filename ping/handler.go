@@ -12,6 +12,15 @@ import (
 
 func pingAndWriteDB(ip string, db *controller.Database) {
 	p := fastping.NewPinger()
+	p.MaxRTT = time.Second * 3
+	err := p.AddHandler("idle", func() {
+		m := models.Device{}
+		m.IP = ip
+		db.First(&m)
+		m.State = "Timeout"
+		db.Update(&m)
+		log.Fatal(fmt.Sprintf("IP Addr: %s , Timeouted ", ip))
+	})
 	ra, err := net.ResolveIPAddr("ip4:icmp", ip)
 	if err != nil {
 		log.Fatal(err)
@@ -47,6 +56,7 @@ func pingAndWriteDBAll(db *controller.Database) {
 }
 
 func StartPingTask(db *controller.Database) {
+
 	log.Println("waiting for 3 minutes")
 	time.Sleep(1 * time.Minute)
 	log.Println("waiting for 2 minutes")
