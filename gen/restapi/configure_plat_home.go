@@ -8,6 +8,8 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
+	"github.com/tatsushid/go-fastping"
+	"net"
 	"net/http"
 	"os"
 	"plathome-backend/controller"
@@ -15,6 +17,7 @@ import (
 	handler2 "plathome-backend/handler"
 	"plathome-backend/models"
 	"strings"
+	"time"
 )
 
 //go:generate swagger generate server --target ../../gen --name PlatHome --spec ../../swagger.yaml --exclude-main
@@ -30,6 +33,18 @@ func configureAPI(api *operations.PlatHomeAPI) http.Handler {
 	)
 	db := controller.NewDatabase(dialect, settings)
 	api.ServeError = errors.ServeError
+	p := fastping.NewPinger()
+	ra, err := net.ResolveIPAddr("ip4:icmp", "https://google.com/")
+	if err != nil {
+		fmt.Println(err)
+	}
+	p.AddIPAddr(ra)
+	p.OnRecv = func(addr *net.IPAddr, rtt time.Duration) {
+		fmt.Printf("IP Addr: %s receive, RTT: %v\n", addr.String(), rtt)
+	}
+	p.OnIdle = func() {
+		fmt.Println("finish")
+	}
 
 	// Set your custom logger if needed. Default one is log.Printf
 	// Expected interface func(string, ...interface{})
@@ -58,6 +73,10 @@ func configureAPI(api *operations.PlatHomeAPI) http.Handler {
 		Responder {
 		ms := db.FindAll()
 		gms := models.ConvertDevices(*ms)
+		err := p.Run()
+		if err != nil {
+			panic(err)
+		}
 		return operations.NewGetDeviceOK().WithPayload(gms)
 	})
 
