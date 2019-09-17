@@ -64,10 +64,6 @@ func configureAPI(api *operations.PlatHomeAPI) http.Handler {
 		Responder {
 		ms := db.FindAll()
 		gms := models.ConvertDevices(*ms)
-		err := p.Run()
-		if err != nil {
-			panic(err)
-		}
 		return operations.NewGetDeviceOK().WithPayload(gms)
 	})
 
