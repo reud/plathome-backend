@@ -8,17 +8,14 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
-	"github.com/tatsushid/go-fastping"
-	"log"
-	"net"
 	"net/http"
 	"os"
 	"plathome-backend/controller"
 	"plathome-backend/gen/restapi/operations"
 	handler2 "plathome-backend/handler"
 	"plathome-backend/models"
+	"plathome-backend/ping"
 	"strings"
-	"time"
 )
 
 //go:generate swagger generate server --target ../../gen --name PlatHome --spec ../../swagger.yaml --exclude-main
@@ -29,7 +26,7 @@ func configureFlags(api *operations.PlatHomeAPI) {
 
 func configureAPI(api *operations.PlatHomeAPI) http.Handler {
 	if os.Getenv("DBHOST") == "" {
-		panic("DBHOST is not required")
+		panic("DBHOST is required")
 	}
 	var (
 		dialect  = "postgres"
@@ -37,18 +34,8 @@ func configureAPI(api *operations.PlatHomeAPI) http.Handler {
 	)
 	db := controller.NewDatabase(dialect, settings)
 	api.ServeError = errors.ServeError
-	p := fastping.NewPinger()
-	ra, err := net.ResolveIPAddr("ip4:icmp", "192.168.0.66")
-	if err != nil {
-		log.Fatal(err)
-	}
-	p.AddIPAddr(ra)
-	p.OnRecv = func(addr *net.IPAddr, rtt time.Duration) {
-		log.Print(fmt.Sprintf("IP Addr: %s receive, RTT: %v\n", addr.String(), rtt))
-	}
-	p.OnIdle = func() {
-		log.Println("finish")
-	}
+
+	ping.StartPingTask(db)
 
 	// Set your custom logger if needed. Default one is log.Printf
 	// Expected interface func(string, ...interface{})

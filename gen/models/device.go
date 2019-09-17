@@ -35,6 +35,10 @@ type Device struct {
 	// Required: true
 	IP *string `json:"ip"`
 
+	// state
+	// Required: true
+	State *string `json:"state"`
+
 	// type
 	// Required: true
 	Type *string `json:"type"`
@@ -57,6 +61,10 @@ func (m *Device) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateIP(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateState(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -116,6 +124,15 @@ func (m *Device) validateHostname(formats strfmt.Registry) error {
 func (m *Device) validateIP(formats strfmt.Registry) error {
 
 	if err := validate.Required("ip", "body", m.IP); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *Device) validateState(formats strfmt.Registry) error {
+
+	if err := validate.Required("state", "body", m.State); err != nil {
 		return err
 	}
 
