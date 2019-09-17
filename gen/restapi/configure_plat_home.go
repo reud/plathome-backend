@@ -27,14 +27,17 @@ func configureFlags(api *operations.PlatHomeAPI) {
 }
 
 func configureAPI(api *operations.PlatHomeAPI) http.Handler {
+	if os.Getenv("DBHOST") == "" {
+		panic("DBHOST is not required")
+	}
 	var (
 		dialect  = "postgres"
-		settings = "host=" + os.Getenv("host") + " user=postgres port=5432 sslmode=disable"
+		settings = "host=" + os.Getenv("DBHOST") + " user=postgres port=5432 sslmode=disable"
 	)
 	db := controller.NewDatabase(dialect, settings)
 	api.ServeError = errors.ServeError
 	p := fastping.NewPinger()
-	ra, err := net.ResolveIPAddr("ip4:icmp", "https://google.com/")
+	ra, err := net.ResolveIPAddr("ip4:icmp", "192.168.0.66")
 	if err != nil {
 		fmt.Println(err)
 	}
