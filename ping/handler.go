@@ -10,20 +10,12 @@ import (
 	"time"
 )
 
+var status = map[string]string{}
+
 func pingAndWriteDB(ip string, db *controller.Database) {
+	status[ip] = "connecting"
 	p := fastping.NewPinger()
-	p.MaxRTT = time.Second * 3
-	err := p.AddHandler("idle", func() {
-		m := models.Device{}
-		m.IP = ip
-		db.First(&m)
-		m.State = "Timeout"
-		db.Update(&m)
-		log.Fatal(fmt.Sprintf("IP Addr: %s , Timeouted ", ip))
-	})
-	if err != nil {
-		log.Fatal(err)
-	}
+
 	ra, err := net.ResolveIPAddr("ip4:icmp", ip)
 	if err != nil {
 		log.Fatal(err)
@@ -34,10 +26,20 @@ func pingAndWriteDB(ip string, db *controller.Database) {
 		m.IP = addr.String()
 		db.First(&m)
 		m.State = "alive"
+		status[ip] = "ok"
 		db.Update(&m)
 		log.Print(fmt.Sprintf("IP Addr: %s receive, RTT: %v\n", addr.String(), rtt))
 	}
 	p.OnIdle = func() {
+		if status[ip] != "ok" {
+			status[ip] = "timeout"
+			m := models.Device{}
+			m.IP = ip
+			db.First(&m)
+			m.State = "Timeout"
+			db.Update(&m)
+			log.Println(ip + " Timeouted")
+		}
 		log.Println(ip + " finished")
 	}
 	err = p.Run()
@@ -59,7 +61,6 @@ func pingAndWriteDBAll(db *controller.Database) {
 }
 
 func StartPingTask(db *controller.Database) {
-
 	log.Println("waiting for 3 minutes")
 	time.Sleep(1 * time.Minute)
 	log.Println("waiting for 2 minutes")
