@@ -36,7 +36,7 @@ func pingAndWriteDB(ip string, db *controller.Database) {
 			m := models.Device{}
 			m.IP = ip
 			db.First(&m)
-			m.State = "Timeout"
+			m.State = "timeout"
 			db.Update(&m)
 			log.Println(ip + " Timeouted")
 		}
