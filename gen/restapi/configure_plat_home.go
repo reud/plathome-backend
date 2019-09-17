@@ -35,7 +35,7 @@ func configureAPI(api *operations.PlatHomeAPI) http.Handler {
 	db := controller.NewDatabase(dialect, settings)
 	api.ServeError = errors.ServeError
 
-	ping.StartPingTask(db)
+	go ping.StartPingTask(db)
 
 	// Set your custom logger if needed. Default one is log.Printf
 	// Expected interface func(string, ...interface{})

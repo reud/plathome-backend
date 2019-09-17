@@ -19,7 +19,7 @@ require (
 	github.com/mailru/easyjson v0.7.0 // indirect
 	github.com/mattn/go-sqlite3 v1.11.0 // indirect
 	github.com/rs/cors v1.7.0
-	github.com/tatsushid/go-fastping v0.0.0-20160109021039-d7bb493dee3e // indirect
+	github.com/tatsushid/go-fastping v0.0.0-20160109021039-d7bb493dee3e
 	golang.org/x/crypto v0.0.0-20190911031432-227b76d455e7 // indirect
 	golang.org/x/net v0.0.0-20190912160710-24e19bdeb0f2
 	golang.org/x/tools v0.0.0-20190617190820-da514acc4774 // indirect

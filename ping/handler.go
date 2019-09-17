@@ -47,17 +47,16 @@ func pingAndWriteDBAll(db *controller.Database) {
 }
 
 func StartPingTask(db *controller.Database) {
-	go func() {
-		log.Println("waiting for 3 minutes")
+	log.Println("waiting for 3 minutes")
+	time.Sleep(1 * time.Minute)
+	log.Println("waiting for 2 minutes")
+	time.Sleep(1 * time.Minute)
+	log.Println("waiting for 1 minutes")
+	time.Sleep(1 * time.Minute)
+	log.Println("ping manager started")
+	for {
+		pingAndWriteDBAll(db)
 		time.Sleep(1 * time.Minute)
-		log.Println("waiting for 2 minutes")
-		time.Sleep(1 * time.Minute)
-		log.Println("waiting for 1 minutes")
-		time.Sleep(1 * time.Minute)
-		log.Println("ping manager started")
-		for {
-			pingAndWriteDBAll(db)
-			time.Sleep(1 * time.Minute)
-		}
-	}()
+	}
+
 }
