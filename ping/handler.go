@@ -21,6 +21,9 @@ func pingAndWriteDB(ip string, db *controller.Database) {
 		db.Update(&m)
 		log.Fatal(fmt.Sprintf("IP Addr: %s , Timeouted ", ip))
 	})
+	if err != nil {
+		log.Fatal(err)
+	}
 	ra, err := net.ResolveIPAddr("ip4:icmp", ip)
 	if err != nil {
 		log.Fatal(err)
