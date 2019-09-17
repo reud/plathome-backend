@@ -9,6 +9,7 @@ import (
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/tatsushid/go-fastping"
+	"log"
 	"net"
 	"net/http"
 	"os"
@@ -39,14 +40,14 @@ func configureAPI(api *operations.PlatHomeAPI) http.Handler {
 	p := fastping.NewPinger()
 	ra, err := net.ResolveIPAddr("ip4:icmp", "192.168.0.66")
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 	p.AddIPAddr(ra)
 	p.OnRecv = func(addr *net.IPAddr, rtt time.Duration) {
-		fmt.Printf("IP Addr: %s receive, RTT: %v\n", addr.String(), rtt)
+		log.Print(fmt.Sprintf("IP Addr: %s receive, RTT: %v\n", addr.String(), rtt))
 	}
 	p.OnIdle = func() {
-		fmt.Println("finish")
+		log.Println("finish")
 	}
 
 	// Set your custom logger if needed. Default one is log.Printf
