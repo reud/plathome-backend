@@ -15,18 +15,18 @@ services:
 
   # golang アプリケーション
   app:
-    build:
+    build: 
       context: ./
       args:
-        GOARCH: "arm"
+        GOARCH: "amd64"
+        HOST: "127.0.0.1"
     # postgres をビルドした後に app をビルド
     depends_on:
       - postgres
     # Dockerfile を指定
     network_mode: "host"
     environment:
-      - host=0.0.0.0
-    ports:
-      - "17532:8080"
+      - DBHOST=localhost
+      - HOST=localhost
 volumes:
   dbdata:

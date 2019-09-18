@@ -51,5 +51,20 @@ func (d *Database) Update(device *models.Device) {
 	d.db.First(&fromRecord)
 	d.db.Model(&fromRecord).Update(&device)
 	d.db.Save(&device)
+}
 
+func (d *Database) UpdateByID(device *models.Device) {
+	fromRecord := models.Device{}
+	fromRecord.IP = device.IP
+	d.db.First(&fromRecord)
+	d.db.Model(&fromRecord).Update(&device)
+	d.db.Save(&device)
+}
+
+func (d *Database) Find(device *models.Device) {
+	d.db.Find(&device)
+}
+
+func (d *Database) First(device *models.Device) {
+	d.db.First(&device)
 }

@@ -128,7 +128,8 @@ func init() {
         "ip",
         "hostname",
         "description",
-        "ezRequesterModels"
+        "ezRequesterModels",
+        "state"
       ],
       "properties": {
         "description": {
@@ -144,6 +145,9 @@ func init() {
           "type": "string"
         },
         "ip": {
+          "type": "string"
+        },
+        "state": {
           "type": "string"
         },
         "type": {
@@ -279,7 +283,8 @@ func init() {
         "ip",
         "hostname",
         "description",
-        "ezRequesterModels"
+        "ezRequesterModels",
+        "state"
       ],
       "properties": {
         "description": {
@@ -295,6 +300,9 @@ func init() {
           "type": "string"
         },
         "ip": {
+          "type": "string"
+        },
+        "state": {
           "type": "string"
         },
         "type": {

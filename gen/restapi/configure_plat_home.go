@@ -14,6 +14,7 @@ import (
 	"plathome-backend/gen/restapi/operations"
 	handler2 "plathome-backend/handler"
 	"plathome-backend/models"
+	"plathome-backend/ping"
 	"strings"
 )
 
@@ -24,12 +25,17 @@ func configureFlags(api *operations.PlatHomeAPI) {
 }
 
 func configureAPI(api *operations.PlatHomeAPI) http.Handler {
+	if os.Getenv("DBHOST") == "" {
+		panic("DBHOST is required")
+	}
 	var (
 		dialect  = "postgres"
-		settings = "host=" + os.Getenv("host") + " user=postgres port=5432 sslmode=disable"
+		settings = "host=" + os.Getenv("DBHOST") + " user=postgres port=5432 sslmode=disable"
 	)
 	db := controller.NewDatabase(dialect, settings)
 	api.ServeError = errors.ServeError
+
+	go ping.StartPingTask(db)
 
 	// Set your custom logger if needed. Default one is log.Printf
 	// Expected interface func(string, ...interface{})

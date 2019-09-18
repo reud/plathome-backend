@@ -12,7 +12,8 @@ type Device struct {
 	Hostname string `json:"hostname"`
 	IP       string `json:"ip" gorm:"primary_key"`
 
-	Type string `json:"type"`
+	Type  string `json:"type"`
+	State string `json:"state"`
 }
 
 type EzRequesterModel struct {
@@ -27,6 +28,7 @@ func NewDevice(md *models.Device) Device {
 		Hostname:    *md.Hostname,
 		IP:          *md.IP,
 		Type:        *md.Type,
+		State:       *md.State,
 	}
 	ip := d.IP
 	var em []EzRequesterModel
@@ -55,6 +57,7 @@ func convertDevice(d *Device) *models.Device {
 		Hostname:          &d.Hostname,
 		IP:                &d.IP,
 		Type:              &d.Type,
+		State:             &d.State,
 	}
 	return md
 }
