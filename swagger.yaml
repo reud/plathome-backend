@@ -67,6 +67,39 @@ paths:
             type: "array"
             items:
               $ref: '#/definitions/Device'
+  /ping:
+    get:
+      summary: "PING by P(converted)"
+      parameters:
+        - name: "ip"
+          in: "query"
+          required: true
+          description: "device ip"
+          type: "string"
+
+
+      responses:
+        200:
+          description: "pink finished"
+          schema:
+            type: "object"
+            properties:
+              result:
+                type: "string"
+        404:
+          description: "record not found"
+          schema:
+            type: "object"
+            properties:
+              result:
+                type: "string"
+        500:
+          description: "Internal Server Error"
+          schema:
+            type: "object"
+            properties:
+              result:
+                type: "string"
 
 definitions:
   Device:

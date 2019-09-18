@@ -118,6 +118,55 @@ func init() {
           }
         }
       }
+    },
+    "/ping": {
+      "get": {
+        "summary": "PING by P(converted)",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "device ip",
+            "name": "ip",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "pink finished",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "record not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -266,6 +315,55 @@ func init() {
               "type": "object",
               "properties": {
                 "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ping": {
+      "get": {
+        "summary": "PING by P(converted)",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "device ip",
+            "name": "ip",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "pink finished",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "record not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
                   "type": "string"
                 }
               }

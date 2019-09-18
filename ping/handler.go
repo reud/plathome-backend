@@ -68,3 +68,38 @@ func StartPingTask(db *controller.Database) {
 	}
 
 }
+
+func Ping(ip string) string {
+	p := fastping.NewPinger()
+	var isRecvd = false
+	var isFinished = false
+	var result = "bugged"
+	ra, err := net.ResolveIPAddr("ip4:icmp", ip)
+	if err != nil {
+		log.Fatal(err)
+	}
+	p.AddIPAddr(ra)
+	p.OnRecv = func(addr *net.IPAddr, rtt time.Duration) {
+		isRecvd = true
+	}
+	p.OnIdle = func() {
+		isFinished = true
+		if isRecvd {
+			result = "ok"
+			return
+		}
+		result = "timeout"
+		return
+	}
+	err = p.Run()
+	if err != nil {
+		result = err.Error()
+	}
+	log.Println("waiting start")
+	for {
+		if isFinished {
+			break
+		}
+	}
+	return result
+}

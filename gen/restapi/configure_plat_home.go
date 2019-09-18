@@ -67,6 +67,29 @@ func configureAPI(api *operations.PlatHomeAPI) http.Handler {
 		return operations.NewGetDeviceOK().WithPayload(gms)
 	})
 
+	api.GetPingHandler = operations.GetPingHandlerFunc(func(params operations.GetPingParams) middleware.Responder {
+		ip := strings.Replace(params.IP, "_", ".", -1)
+		r := models.Device{}
+		r.IP = ip
+		db.First(&r)
+		// record exist check
+		if r.State == "" {
+			return operations.NewGetPingNotFound().WithPayload(&operations.
+				GetPingNotFoundBody{Result: "record not found"})
+		}
+		res := ping.Ping(ip)
+		switch res {
+		case "ok":
+			return operations.NewGetPingOK().WithPayload(&operations.GetPingOKBody{Result: res})
+		case "timeout":
+			return operations.NewGetPingOK().WithPayload(&operations.GetPingOKBody{Result: res})
+		default:
+			return operations.NewGetPingInternalServerError().WithPayload(&operations.
+				GetPingInternalServerErrorBody{Result: res})
+		}
+
+	})
+
 	api.ServerShutdown = func() {}
 
 	return setupGlobalMiddleware(api.Serve(setupMiddlewares))
