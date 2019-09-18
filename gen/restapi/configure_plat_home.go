@@ -79,7 +79,7 @@ func configureAPI(api *operations.PlatHomeAPI) http.Handler {
 		}
 		res := ping.Ping(ip)
 		switch res {
-		case "ok":
+		case "alive":
 			return operations.NewGetPingOK().WithPayload(&operations.GetPingOKBody{Result: res})
 		case "timeout":
 			return operations.NewGetPingOK().WithPayload(&operations.GetPingOKBody{Result: res})

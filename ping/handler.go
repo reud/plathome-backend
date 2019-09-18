@@ -85,7 +85,7 @@ func Ping(ip string) string {
 	p.OnIdle = func() {
 		isFinished = true
 		if isRecvd {
-			result = "ok"
+			result = "alive"
 			return
 		}
 		result = "timeout"
