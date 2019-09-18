@@ -43,6 +43,9 @@ func NewPlatHomeAPI(spec *loads.Document) *PlatHomeAPI {
 		GetDeviceHandler: GetDeviceHandlerFunc(func(params GetDeviceParams) middleware.Responder {
 			return middleware.NotImplemented("operation GetDevice has not yet been implemented")
 		}),
+		GetPingHandler: GetPingHandlerFunc(func(params GetPingParams) middleware.Responder {
+			return middleware.NotImplemented("operation GetPing has not yet been implemented")
+		}),
 		PutDeviceHandler: PutDeviceHandlerFunc(func(params PutDeviceParams) middleware.Responder {
 			return middleware.NotImplemented("operation PutDevice has not yet been implemented")
 		}),
@@ -81,6 +84,8 @@ type PlatHomeAPI struct {
 	DeleteDeviceHandler DeleteDeviceHandler
 	// GetDeviceHandler sets the operation handler for the get device operation
 	GetDeviceHandler GetDeviceHandler
+	// GetPingHandler sets the operation handler for the get ping operation
+	GetPingHandler GetPingHandler
 	// PutDeviceHandler sets the operation handler for the put device operation
 	PutDeviceHandler PutDeviceHandler
 
@@ -152,6 +157,10 @@ func (o *PlatHomeAPI) Validate() error {
 
 	if o.GetDeviceHandler == nil {
 		unregistered = append(unregistered, "GetDeviceHandler")
+	}
+
+	if o.GetPingHandler == nil {
+		unregistered = append(unregistered, "GetPingHandler")
 	}
 
 	if o.PutDeviceHandler == nil {
@@ -265,6 +274,11 @@ func (o *PlatHomeAPI) initHandlerCache() {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"]["/device"] = NewGetDevice(o.context, o.GetDeviceHandler)
+
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/ping"] = NewGetPing(o.context, o.GetPingHandler)
 
 	if o.handlers["PUT"] == nil {
 		o.handlers["PUT"] = make(map[string]http.Handler)
