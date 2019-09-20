@@ -24,9 +24,5 @@ services:
       - postgres
     # Dockerfile を指定
     network_mode: "host"
-    environment:
-      - host=0.0.0.0
-    ports:
-      - "17532:8080"
 volumes:
   dbdata:

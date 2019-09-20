@@ -19,14 +19,13 @@ services:
       context: ./
       args:
         GOARCH: "amd64"
-        HOST: "127.0.0.1"
     # postgres をビルドした後に app をビルド
     depends_on:
       - postgres
     # Dockerfile を指定
-    network_mode: "host"
     environment:
-      - DBHOST=localhost
-      - HOST=localhost
+      - DBHOST=postgres
+    ports:
+      - "8080:8080"
 volumes:
   dbdata:
